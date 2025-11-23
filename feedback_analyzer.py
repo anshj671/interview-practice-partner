@@ -115,7 +115,7 @@ class FeedbackAnalyzer:
     ) -> ResponseEvaluation:
         """Use LLM to analyze response"""
         from langchain_openai import ChatOpenAI
-        from langchain.prompts import ChatPromptTemplate
+        from langchain_core.prompts import ChatPromptTemplate
         
         if not isinstance(self.llm_client, ChatOpenAI):
             self.llm_client = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)

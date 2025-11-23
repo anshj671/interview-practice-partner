@@ -5,8 +5,7 @@ from typing import List, Dict, Optional, Any
 from datetime import datetime
 import random
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage, AIMessage, SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
 
 from interview_roles import InterviewRole, get_role
 from feedback_analyzer import FeedbackAnalyzer, InterviewFeedback, ResponseEvaluation

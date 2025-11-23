@@ -2,11 +2,24 @@
 Voice interface for the Interview Practice Partner
 Supports both voice input (speech recognition) and voice output (text-to-speech)
 """
-import speech_recognition as sr
-import pyttsx3
 import threading
 from typing import Optional, Callable
 import time
+
+# Optional imports for voice functionality
+try:
+    import speech_recognition as sr
+    SPEECH_RECOGNITION_AVAILABLE = True
+except ImportError:
+    SPEECH_RECOGNITION_AVAILABLE = False
+    sr = None
+
+try:
+    import pyttsx3
+    TTS_AVAILABLE = True
+except ImportError:
+    TTS_AVAILABLE = False
+    pyttsx3 = None
 
 class VoiceInterface:
     """Handles voice input and output for the interview agent"""
@@ -20,30 +33,39 @@ class VoiceInterface:
         self.is_listening = False
         
         # Initialize TTS engine
-        try:
-            self.tts_engine = pyttsx3.init()
-            self.tts_engine.setProperty('rate', rate)
-            # Try to set a pleasant voice
-            voices = self.tts_engine.getProperty('voices')
-            if voices:
-                # Prefer female voice if available
-                for voice in voices:
-                    if 'female' in voice.name.lower() or 'zira' in voice.name.lower():
-                        self.tts_engine.setProperty('voice', voice.id)
-                        break
-        except Exception as e:
-            print(f"Warning: Could not initialize TTS engine: {e}")
+        if TTS_AVAILABLE:
+            try:
+                self.tts_engine = pyttsx3.init()
+                self.tts_engine.setProperty('rate', rate)
+                # Try to set a pleasant voice
+                voices = self.tts_engine.getProperty('voices')
+                if voices:
+                    # Prefer female voice if available
+                    for voice in voices:
+                        if 'female' in voice.name.lower() or 'zira' in voice.name.lower():
+                            self.tts_engine.setProperty('voice', voice.id)
+                            break
+            except Exception as e:
+                print(f"Warning: Could not initialize TTS engine: {e}")
+                self.tts_engine = None
+        else:
             self.tts_engine = None
+            print("Warning: pyttsx3 not available. Voice output disabled.")
         
         # Initialize microphone
-        try:
-            self.microphone = sr.Microphone()
-            # Adjust for ambient noise
-            with self.microphone as source:
-                self.recognizer.adjust_for_ambient_noise(source, duration=1)
-        except Exception as e:
-            print(f"Warning: Could not initialize microphone: {e}")
+        if SPEECH_RECOGNITION_AVAILABLE:
+            try:
+                self.microphone = sr.Microphone()
+                # Adjust for ambient noise
+                with self.microphone as source:
+                    self.recognizer.adjust_for_ambient_noise(source, duration=1)
+            except Exception as e:
+                print(f"Warning: Could not initialize microphone: {e}")
+                self.microphone = None
+        else:
             self.microphone = None
+            self.recognizer = None
+            print("Warning: speech_recognition not available. Voice input disabled.")
     
     def speak(self, text: str, async_mode: bool = False):
         """
@@ -84,7 +106,7 @@ class VoiceInterface:
         Returns:
             Recognized text or None if error/timeout
         """
-        if not self.microphone:
+        if not SPEECH_RECOGNITION_AVAILABLE or not self.microphone or not self.recognizer:
             print("Microphone not available. Please use text input.")
             return None
         
