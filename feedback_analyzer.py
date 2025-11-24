@@ -95,8 +95,8 @@ class FeedbackAnalyzer:
             self.llm_client = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
         
         prompt = ChatPromptTemplate.from_messages([
-            ("system", ),
-            ("human", )
+            ("system", "You are an expert interview evaluator. Analyze the candidate's response and provide a detailed evaluation with a score from 1-10 and specific feedback."),
+            ("human", "Question: {question}\nResponse: {response}\nEvaluation Criteria:\n{criteria}\n\nProvide your evaluation as JSON with 'score' (1-10), 'strengths' (list), 'areas_for_improvement' (list), and 'specific_feedback' (string).")
         ])
         
         criteria_text = "\n".join([

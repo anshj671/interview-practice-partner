@@ -163,8 +163,8 @@ class InterviewAgent:
         
         try:
             prompt = ChatPromptTemplate.from_messages([
-                ("system", ),
-                ("human", )
+                ("system", "You are an interview evaluator. Determine if the candidate's response is relevant to the question asked. Reply with only 'YES' if relevant or 'NO' if off-topic."),
+                ("human", "Question: {question}\nResponse: {response}\nIs this response relevant to the question?")
             ])
             
             chain = prompt | self.llm_client
@@ -214,8 +214,8 @@ class InterviewAgent:
                 instruction = "Ask a specific follow-up that digs deeper into something concrete they mentioned."
             
             prompt = ChatPromptTemplate.from_messages([
-                ("system", ),
-                ("human", )
+                ("system", "You are an experienced interviewer conducting a mock interview. Generate a natural follow-up question based on the candidate's response. Be conversational and encouraging."),
+                ("human", "Original Question: {original_question}\nCandidate's Response: {response}\nRole: {role_description}\nInstruction: {instruction}\nGenerate a follow-up question:")
             ])
             
             chain = prompt | self.llm_client
@@ -255,7 +255,7 @@ class InterviewAgent:
     
     def _handle_excessive_off_topic(self) -> str:
         
-        return 
+        return "I notice we keep going off-topic. Let's try to focus on the interview questions. Would you like to continue, or should we end the session?" 
     
     def _end_interview(self) -> str:
         
@@ -271,7 +271,7 @@ class InterviewAgent:
         
         self.interview_started = False
         
-        return f
+        return f"Thank you for completing the interview!\n\n{summary}"
     
     def handle_user_input(self, user_input: str) -> str:
         
@@ -311,5 +311,12 @@ class InterviewAgent:
     def _get_help_message(self) -> str:
         
         roles = self._list_available_roles()
-        return f
+        return f"""Available Commands:
+  • start interview [role] - Begin a new interview session
+  • quit/exit/end - End the current session
+  • help - Show this message
+
+Available Roles: {', '.join(roles)}
+
+Example: 'start interview software engineer'"""
 
