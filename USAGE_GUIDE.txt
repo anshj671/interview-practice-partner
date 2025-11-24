@@ -1,0 +1,59 @@
+========================================
+INTERVIEW PRACTICE PARTNER - QUICK GUIDE
+========================================
+
+✅ YOUR APPLICATION IS RUNNING!
+
+📝 HOW TO USE:
+1. Look at the terminal where the app is running
+2. Type: start interview software engineer
+3. Answer the interview questions naturally
+4. Receive feedback at the end
+5. Type: quit (to exit)
+
+💡 USEFUL COMMANDS:
+- help                        → Show all available commands
+- start interview [role]      → Begin mock interview
+- quit / exit                 → Exit the application
+
+🎯 AVAILABLE ROLES:
+- software engineer
+- sales representative
+- retail associate
+- data scientist
+- product manager
+
+📋 EXAMPLE SESSION:
+-----------------------------------------
+You: start interview software engineer
+
+Interviewer: Hello! Welcome to your mock interview...
+
+Interviewer: Tell me about a challenging technical problem you've solved.
+
+You: I once had to optimize a database query that was taking too long...
+
+Interviewer: That's interesting. Can you walk me through your approach?
+
+You: First, I used EXPLAIN to analyze the query execution plan...
+
+[Interview continues with 5 questions + follow-ups]
+
+Interviewer: Thank you for completing the interview! Here's your feedback:
+[Detailed feedback with strengths, weaknesses, and suggestions]
+-----------------------------------------
+
+🎤 VOICE MODE (Optional):
+To use voice interface instead of typing:
+python main.py --voice
+
+🎭 DEMO SCENARIOS:
+To see how the agent handles different user types:
+python demo_scenarios.py
+
+⚠️ TROUBLESHOOTING:
+- If you see API errors, check your .env file has the correct OpenAI API key
+- The key should start with "sk-" followed by your actual key
+- Make sure you have credits in your OpenAI account
+
+🚀 YOU'RE ALL SET! Switch to the terminal to start your interview!

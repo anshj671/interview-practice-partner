@@ -1,12 +1,10 @@
-"""
-Interview role configurations with role-specific questions and evaluation criteria
-"""
+
 from typing import List, Dict, Any
 from dataclasses import dataclass
 
 @dataclass
 class InterviewRole:
-    """Configuration for a specific interview role"""
+    
     name: str
     description: str
     core_questions: List[str]
@@ -14,7 +12,6 @@ class InterviewRole:
     evaluation_criteria: Dict[str, str]
     difficulty_level: str = "intermediate"
 
-# Role configurations
 ROLE_CONFIGS: Dict[str, InterviewRole] = {
     "software engineer": InterviewRole(
         name="Software Engineer",
@@ -149,7 +146,7 @@ ROLE_CONFIGS: Dict[str, InterviewRole] = {
 }
 
 def get_role(name: str) -> InterviewRole:
-    """Get role configuration by name (case-insensitive)"""
+    
     name_lower = name.lower()
     for role_name, role_config in ROLE_CONFIGS.items():
         if role_name.lower() == name_lower or role_config.name.lower() == name_lower:
@@ -157,6 +154,6 @@ def get_role(name: str) -> InterviewRole:
     raise ValueError(f"Role '{name}' not found. Available roles: {list(ROLE_CONFIGS.keys())}")
 
 def list_roles() -> List[str]:
-    """Get list of available role names"""
+    
     return list(ROLE_CONFIGS.keys())
 
